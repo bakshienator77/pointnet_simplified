@@ -60,10 +60,11 @@ if __name__ == '__main__':
     test_dataloader = get_data_loader(args=args, train=False)
 
     # ------ TO DO: Make Prediction ------
-    # pred_label = torch.argmax(model(test_data.cuda()).reshape([-1, args.num_seg_class]), dim=1)
-    test_accuracy, pred_label = test(test_dataloader, model, 0, args, None)
 
-    # test_accuracy = pred_label.eq(test_label.data).cpu().sum().item() / (test_label.reshape((-1,1)).size()[0])
+    pred_label = torch.cat([torch.argmax(model(test_data[row_idx:row_idx+args.batch_size].cuda()), dim=2).cpu().detach() for row_idx in range(0, len(test_data), args.batch_size) ], dim=0)
+    # test_accuracy, pred_label = test(test_dataloader, model, 0, args, None)
+
+    test_accuracy = pred_label.eq(test_label.data).cpu().sum().item() / (test_label.reshape((-1,1)).size()[0])
     print ("test accuracy: {}".format(test_accuracy))
 
     # Visualize Segmentation Result (Pred VS Ground Truth)

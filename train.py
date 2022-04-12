@@ -78,15 +78,15 @@ def test(test_dataloader, model, epoch, args, writer):
             point_clouds, labels = batch
             # print("My currect assumption is that labels is shape B*N: ", labels.shape)
             point_clouds = point_clouds.to(args.device)
-            labels = labels.to(args.device).to(torch.long).reshape([-1])
+            labels = labels.to(args.device).to(torch.long)#.reshape([-1])
 
             # ------ TO DO: Make Predictions ------
             with torch.no_grad():
-                pred_labels = torch.argmax(model(point_clouds).reshape([-1, args.num_seg_class]), dim=1)
+                pred_labels = torch.argmax(model(point_clouds), dim=2)#.reshape([-1, args.num_seg_class]), dim=1)
                 if ret_pred_label is None:
                     ret_pred_label = pred_labels.cpu().detach()
                 else:
-                    ret_pred_label = torch.cat([ret_pred_label, pred_labels.cpu().detach()])
+                    ret_pred_label = torch.cat([ret_pred_label, pred_labels.cpu().detach()], dim=0)
                 # print("My currect assumption is that preds is shape B*N: ", pred_labels.shape)
 
             correct_point += pred_labels.eq(labels.data).cpu().sum().item()
