@@ -7,6 +7,7 @@ from torch.utils.tensorboard import SummaryWriter
 from models import cls_model, seg_model
 from data_loader import get_data_loader
 from utils import save_checkpoint, create_dir
+from tqdm import tqdm
 
 def train(train_dataloader, model, opt, epoch, args, writer):
     
@@ -14,13 +15,13 @@ def train(train_dataloader, model, opt, epoch, args, writer):
     step = epoch*len(train_dataloader)
     epoch_loss = 0
 
-    for i, batch in enumerate(train_dataloader):
+    for i, batch in tqdm(enumerate(train_dataloader)):
         point_clouds, labels = batch
         point_clouds = point_clouds.to(args.device)
         labels = labels.to(args.device).to(torch.long)
 
         # ------ TO DO: Forward Pass ------
-        predictions = 
+        predictions = model(point_clouds)
 
         if (args.task == "seg"):
             labels = labels.reshape([-1])
@@ -50,12 +51,14 @@ def test(test_dataloader, model, epoch, args, writer):
         num_obj = 0
         for batch in test_dataloader:
             point_clouds, labels = batch
+            # print("My currect assumption is that labels is shape Bx 3: ", labels.shape)
             point_clouds = point_clouds.to(args.device)
             labels = labels.to(args.device).to(torch.long)
 
             # ------ TO DO: Make Predictions ------
             with torch.no_grad():
-                pred_labels = 
+                pred_labels = torch.argmax(model(point_clouds), dim=1)
+                # print("My currect assumption is that preds is shape B: ", pred_labels.shape)
             correct_obj += pred_labels.eq(labels.data).cpu().sum().item()
             num_obj += labels.size()[0]
 
@@ -69,12 +72,14 @@ def test(test_dataloader, model, epoch, args, writer):
         num_point = 0
         for batch in test_dataloader:
             point_clouds, labels = batch
+            print("My currect assumption is that labels is shape B*N: ", labels.shape)
             point_clouds = point_clouds.to(args.device)
             labels = labels.to(args.device).to(torch.long)
 
             # ------ TO DO: Make Predictions ------
-            with torch.no_grad():     
-                pred_labels = 
+            with torch.no_grad():
+                pred_labels = torch.argmax(model(point_clouds).reshape([-1, args.num_seg_class]), dim=1)
+                print("My currect assumption is that preds is shape B*N: ", pred_labels.shape)
 
             correct_point += pred_labels.eq(labels.data).cpu().sum().item()
             num_point += labels.view([-1,1]).size()[0]
@@ -99,9 +104,9 @@ def main(args):
 
     # ------ TO DO: Initialize Model ------
     if args.task == "cls":
-        model = 
+        model = cls_model().cuda()
     else:
-        model = 
+        model = seg_model().cuda()
     
     # Load Checkpoint 
     if args.load_checkpoint:
