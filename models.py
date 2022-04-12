@@ -37,8 +37,8 @@ class cls_model(nn.Module):
             nn.BatchNorm1d(256),
             nn.ReLU(),
             nn.Linear(256, num_classes),
-            # nn.BatchNorm1d(num_classes),
-            # nn.ReLU(),
+            nn.BatchNorm1d(num_classes),
+            nn.ReLU(),
         )
 
     def forward(self, points):
@@ -101,7 +101,7 @@ class seg_model(cls_model):
         x_global = self.features_global(x)
         # print("Shape should now be (B, 1024, N): ", x_global.shape)
         x_global = torch.max(x_global, 2, keepdim=True)[0].repeat((1,1,x.shape[-1]))
-        print("Shape should now be (B, 1024, N): ", x_global.shape)
+        # print("Shape should now be (B, 1024, N): ", x_global.shape)
         x = torch.cat([x, x_global], dim=1)
         # print("Shape should now be (B, 1088, N): ", x.shape)
         x = self.features_points(x)

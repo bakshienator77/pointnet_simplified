@@ -1,9 +1,13 @@
+from statistics import mode
 import numpy as np
 import argparse
 
 import torch
 from models import cls_model
 from utils import create_dir
+from train import test
+from data_loader import get_data_loader
+
 
 def create_parser():
     """Creates a parser for command-line arguments.
@@ -22,6 +26,10 @@ def create_parser():
     parser.add_argument('--output_dir', type=str, default='./output')
 
     parser.add_argument('--exp_name', type=str, default="exp", help='The name of the experiment')
+    parser.add_argument('--batch_size', type=int, default=32, help='The number of images in a batch.')
+    parser.add_argument('--main_dir', type=str, default='./data/')
+    parser.add_argument('--task', type=str, default="cls", help='The task: cls or seg')
+    parser.add_argument('--num_workers', type=int, default=4, help='The number of threads to use for the DataLoader.')
 
     return parser
 
@@ -38,7 +46,7 @@ if __name__ == '__main__':
     create_dir(args.output_dir)
 
     # ------ TO DO: Initialize Model for Classification Task ------
-    model = cls_model().to(args.device)
+    model = cls_model().to(args.device).eval()
     
     # Load Model Checkpoint
     model_path = './checkpoints/cls/{}.pt'.format(args.load_checkpoint)
@@ -47,17 +55,22 @@ if __name__ == '__main__':
         model.load_state_dict(state_dict)
     model.eval()
     print ("successfully loaded checkpoint from {}".format(model_path))
-    print("Number of params in the modelwa: ", count_parameters(model))
+    # print("Number of params in the modelwa: ", count_parameters(model))
 
     # Sample Points per Object
     ind = np.random.choice(10000,args.num_points, replace=False)
-    test_data = torch.from_numpy((np.load(args.test_data))[:,ind,:]).to(args.device)
-    test_label = torch.from_numpy(np.load(args.test_label)).reshape([-1])
-
+    # test_data = torch.from_numpy((np.load(args.test_data))[:,ind,:]).to(args.device)
+    # test_label = torch.from_numpy(np.load(args.test_label)).reshape([-1])
+    test_dataloader = get_data_loader(args=args, train=False)
+    print("Am i able to get the data into mem?")
     # ------ TO DO: Make Prediction ------
-    pred_label = torch.argmax(model(test_data), dim=1)
+    # with torch.no_grad():
+        # pred_label = torch.argmax(model(test_data), dim=1)
 
     # Compute Accuracy
-    test_accuracy = pred_label.eq(test_label.data).cpu().sum().item() / (test_label.size()[0])
+    # test_accuracy = pred_label.eq(test_label.data).cpu().sum().item() / (test_label.size()[0])
+    test_accuracy = test(test_dataloader, model, 0, args, None)[0]
     print ("test accuracy: {}".format(test_accuracy))
 
+# epoch: 52   train loss: 49.2060   test accuracy: 0.9717
+# best model saved at epoch 52

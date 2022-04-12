@@ -5,6 +5,8 @@ import torch
 from models import seg_model
 from data_loader import get_data_loader
 from utils import create_dir, viz_seg
+from train import test
+from data_loader import get_data_loader
 
 
 def create_parser():
@@ -24,6 +26,10 @@ def create_parser():
     parser.add_argument('--output_dir', type=str, default='./output')
 
     parser.add_argument('--exp_name', type=str, default="exp", help='The name of the experiment')
+    parser.add_argument('--batch_size', type=int, default=32, help='The number of images in a batch.')
+    parser.add_argument('--main_dir', type=str, default='./data/')
+    parser.add_argument('--task', type=str, default="cls", help='The task: cls or seg')
+    parser.add_argument('--num_workers', type=int, default=4, help='The number of threads to use for the DataLoader.')
 
     return parser
 
@@ -36,7 +42,7 @@ if __name__ == '__main__':
     create_dir(args.output_dir)
 
     # ------ TO DO: Initialize Model for Segmentation Task  ------
-    model = 
+    model = seg_model().cuda()
     
     # Load Model Checkpoint
     model_path = './checkpoints/seg/{}.pt'.format(args.load_checkpoint)
@@ -51,13 +57,19 @@ if __name__ == '__main__':
     ind = np.random.choice(10000,args.num_points, replace=False)
     test_data = torch.from_numpy((np.load(args.test_data))[:,ind,:])
     test_label = torch.from_numpy((np.load(args.test_label))[:,ind])
+    test_dataloader = get_data_loader(args=args, train=False)
 
     # ------ TO DO: Make Prediction ------
-    pred_label = 
+    # pred_label = torch.argmax(model(test_data.cuda()).reshape([-1, args.num_seg_class]), dim=1)
+    test_accuracy, pred_label = test(test_dataloader, model, 0, args, None)
 
-    test_accuracy = pred_label.eq(test_label.data).cpu().sum().item() / (test_label.reshape((-1,1)).size()[0])
+    # test_accuracy = pred_label.eq(test_label.data).cpu().sum().item() / (test_label.reshape((-1,1)).size()[0])
     print ("test accuracy: {}".format(test_accuracy))
 
     # Visualize Segmentation Result (Pred VS Ground Truth)
     viz_seg(test_data[args.i], test_label[args.i], "{}/gt_{}.gif".format(args.output_dir, args.exp_name), args.device)
     viz_seg(test_data[args.i], pred_label[args.i], "{}/pred_{}.gif".format(args.output_dir, args.exp_name), args.device)
+
+
+# epoch: 214   train loss: 12.7632   test accuracy: 0.9072
+# best model saved at epoch 214

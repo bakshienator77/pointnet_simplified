@@ -1,4 +1,5 @@
 import os
+import re
 import torch
 import pytorch3d
 from pytorch3d.renderer import (
@@ -8,6 +9,7 @@ from pytorch3d.renderer import (
     PointsRasterizer,
 )
 import imageio
+import numpy as np
 
 def save_checkpoint(epoch, model, args, best=False):
     if best:
@@ -81,7 +83,8 @@ def viz_seg (verts, labels, path, device):
     point_cloud = pytorch3d.structures.Pointclouds(points=sample_verts, features=sample_colors).to(device)
 
     renderer = get_points_renderer(image_size=image_size, background_color=background_color, device=device)
-    rend = renderer(point_cloud, cameras=c).cpu().numpy() # (30, 256, 256, 3)
+    rend = (255*renderer(point_cloud, cameras=c).cpu().numpy()).astype(np.uint8) # (30, 256, 256, 3)
+    print(np.max(rend)) 
 
     imageio.mimsave(path, rend, fps=15)
 

@@ -44,7 +44,7 @@ def train(train_dataloader, model, opt, epoch, args, writer):
 def test(test_dataloader, model, epoch, args, writer):
     
     model.eval()
-
+    ret_pred_label = None
     # Evaluation in Classification Task
     if (args.task == "cls"):
         correct_obj = 0
@@ -58,6 +58,10 @@ def test(test_dataloader, model, epoch, args, writer):
             # ------ TO DO: Make Predictions ------
             with torch.no_grad():
                 pred_labels = torch.argmax(model(point_clouds), dim=1)
+                if ret_pred_label is None:
+                    ret_pred_label = pred_labels.cpu().detach()
+                else:
+                    ret_pred_label = torch.cat([ret_pred_label, pred_labels.cpu().detach()])
                 # print("My currect assumption is that preds is shape B: ", pred_labels.shape)
             correct_obj += pred_labels.eq(labels.data).cpu().sum().item()
             num_obj += labels.size()[0]
@@ -74,11 +78,15 @@ def test(test_dataloader, model, epoch, args, writer):
             point_clouds, labels = batch
             # print("My currect assumption is that labels is shape B*N: ", labels.shape)
             point_clouds = point_clouds.to(args.device)
-            labels = labels.to(args.device).to(torch.long)#.reshape([-1])
+            labels = labels.to(args.device).to(torch.long).reshape([-1])
 
             # ------ TO DO: Make Predictions ------
             with torch.no_grad():
-                pred_labels = torch.argmax(model(point_clouds), dim=2)#.reshape([-1, args.num_seg_class]), dim=1)
+                pred_labels = torch.argmax(model(point_clouds).reshape([-1, args.num_seg_class]), dim=1)
+                if ret_pred_label is None:
+                    ret_pred_label = pred_labels.cpu().detach()
+                else:
+                    ret_pred_label = torch.cat([ret_pred_label, pred_labels.cpu().detach()])
                 # print("My currect assumption is that preds is shape B*N: ", pred_labels.shape)
 
             correct_point += pred_labels.eq(labels.data).cpu().sum().item()
@@ -86,9 +94,10 @@ def test(test_dataloader, model, epoch, args, writer):
 
         # Compute Accuracy of Test Dataset
         accuracy = correct_point / num_point
-
-    writer.add_scalar("test_acc", accuracy, epoch)
-    return accuracy
+    if writer is not None:
+        writer.add_scalar("test_acc", accuracy, epoch)
+        return accuracy
+    return accuracy, ret_pred_label
 
 
 def main(args):
