@@ -100,6 +100,8 @@ class seg_model(cls_model):
         # print("Shape should now be (B, 64, N): ", x.shape)
         x_global = self.features_global(x)
         # print("Shape should now be (B, 1024, N): ", x_global.shape)
+        x_global = torch.max(x_global, 2, keepdim=True)[0].repeat((1,1,x.shape[-1]))
+        print("Shape should now be (B, 1024, N): ", x_global.shape)
         x = torch.cat([x, x_global], dim=1)
         # print("Shape should now be (B, 1088, N): ", x.shape)
         x = self.features_points(x)
