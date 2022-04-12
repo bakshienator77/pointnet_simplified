@@ -26,6 +26,10 @@ def create_parser():
     return parser
 
 
+
+def count_parameters(model):
+    return sum(p.numel() for p in model.parameters() if p.requires_grad)
+
 if __name__ == '__main__':
     parser = create_parser()
     args = parser.parse_args()
@@ -43,12 +47,12 @@ if __name__ == '__main__':
         model.load_state_dict(state_dict)
     model.eval()
     print ("successfully loaded checkpoint from {}".format(model_path))
-
+    print("Number of params in the modelwa: ", count_parameters(model))
 
     # Sample Points per Object
     ind = np.random.choice(10000,args.num_points, replace=False)
     test_data = torch.from_numpy((np.load(args.test_data))[:,ind,:]).to(args.device)
-    test_label = torch.from_numpy(np.load(args.test_label))
+    test_label = torch.from_numpy(np.load(args.test_label)).reshape([-1])
 
     # ------ TO DO: Make Prediction ------
     pred_label = torch.argmax(model(test_data), dim=1)

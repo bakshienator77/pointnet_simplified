@@ -37,8 +37,8 @@ class cls_model(nn.Module):
             nn.BatchNorm1d(256),
             nn.ReLU(),
             nn.Linear(256, num_classes),
-            nn.BatchNorm1d(num_classes),
-            nn.ReLU(),
+            # nn.BatchNorm1d(num_classes),
+            # nn.ReLU(),
         )
 
     def forward(self, points):
@@ -83,8 +83,8 @@ class seg_model(cls_model):
 
         self.output = nn.Sequential(
             nn.Conv1d(128, num_seg_classes, 1),
-            nn.BatchNorm1d(num_seg_classes),
-            nn.ReLU(),
+            # nn.BatchNorm1d(num_seg_classes),
+            # nn.ReLU(),
         )
     def forward(self, points):
         '''
@@ -94,18 +94,18 @@ class seg_model(cls_model):
         '''
         # pass
         x = points.transpose(2, 1)
-        print("shape is now (B, 3, N)?: ", x.shape)
+        # print("shape is now (B, 3, N)?: ", x.shape)
         #local embeddings
         x = self.features_local(x)
-        print("Shape should now be (B, 64, N): ", x.shape)
+        # print("Shape should now be (B, 64, N): ", x.shape)
         x_global = self.features_global(x)
-        print("Shape should now be (B, 1024, N): ", x_global.shape)
+        # print("Shape should now be (B, 1024, N): ", x_global.shape)
         x = torch.cat([x, x_global], dim=1)
-        print("Shape should now be (B, 1088, N): ", x.shape)
+        # print("Shape should now be (B, 1088, N): ", x.shape)
         x = self.features_points(x)
-        print("Shape should now be (B, 128, N): ", x.shape)
+        # print("Shape should now be (B, 128, N): ", x.shape)
         x = self.output(x).transpose(2, 1)
-        print("Shape should now be (B, N, 6): ", x.shape)
+        # print("Shape should now be (B, N, 6): ", x.shape)
         return x
 
 

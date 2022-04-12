@@ -72,14 +72,14 @@ def test(test_dataloader, model, epoch, args, writer):
         num_point = 0
         for batch in test_dataloader:
             point_clouds, labels = batch
-            print("My currect assumption is that labels is shape B*N: ", labels.shape)
+            # print("My currect assumption is that labels is shape B*N: ", labels.shape)
             point_clouds = point_clouds.to(args.device)
-            labels = labels.to(args.device).to(torch.long)
+            labels = labels.to(args.device).to(torch.long)#.reshape([-1])
 
             # ------ TO DO: Make Predictions ------
             with torch.no_grad():
-                pred_labels = torch.argmax(model(point_clouds).reshape([-1, args.num_seg_class]), dim=1)
-                print("My currect assumption is that preds is shape B*N: ", pred_labels.shape)
+                pred_labels = torch.argmax(model(point_clouds), dim=2)#.reshape([-1, args.num_seg_class]), dim=1)
+                # print("My currect assumption is that preds is shape B*N: ", pred_labels.shape)
 
             correct_point += pred_labels.eq(labels.data).cpu().sum().item()
             num_point += labels.view([-1,1]).size()[0]
