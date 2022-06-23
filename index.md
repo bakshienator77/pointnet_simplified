@@ -11,7 +11,7 @@ Discussion: Chairs clearly have the best performance with no incorrect classific
 #### Testing data Examples
 
 True/Predicted | Chairs | Vases | Lamps 
-- | - | - | -
+---|---|---|---
 Chairs | ![part_3_geometry.gif](websiteoutput/true_0.0_Pred_0_cls_3.gif) | NA | NA 
 Vases | ![part_3_geometry.gif](websiteoutput/true_1.0_Pred_0_cls_9.gif) | ![part_3_geometry.gif](websiteoutput/true_1.0_Pred_1_cls_5.gif) | ![part_3.gif](websiteoutput/true_1.0_Pred_2_cls_4.gif) 
 Lamps | ![part_3_geometry.gif](websiteoutput/true_2.0_Pred_0_cls_8.gif) | ![part_3_geometry.gif](websiteoutput/true_2.0_Pred_1_cls_6.gif) | ![part_3.gif](websiteoutput/true_2.0_Pred_2_cls_7.gif) 
@@ -31,7 +31,7 @@ Discussion: We see that the amount of training data for chairs far exceeds the o
 #### Training data Examples
 
 True/Predicted | Chairs | Vases | Lamps 
-- | - | - | -
+---|---|---|---
 Chairs | ![part_3_geometry.gif](websiteoutput/train_true_0.0_Pred_0_cls_7.gif) | ![part_3_geometry.gif](websiteoutput/train_true_0.0_Pred_1_cls_1.gif) | ![part_3.gif](websiteoutput/train_true_0.0_Pred_2_cls_2.gif) 
 Vases | NA | ![part_3_geometry.gif](websiteoutput/train_true_1.0_Pred_1_cls_1.gif) | ![part_3.gif](websiteoutput/train_true_1.0_Pred_2_cls_2.gif) 
 Lamps | ![part_3_geometry.gif](websiteoutput/train_true_2.0_Pred_0_cls_7.gif) | ![part_3_geometry.gif](websiteoutput/train_true_2.0_Pred_1_cls_1.gif) | ![part_3.gif](websiteoutput/train_true_2.0_Pred_2_cls_5.gif) 
@@ -44,7 +44,7 @@ Discussion: I've included a few more examples from the training set because all 
 
 
  Ground Truth | Predicted | Accuracy 
-- | - | -
+---|---|---
 ![part_3_geometry.gif](websiteoutput/worst_gt_exp_10.gif) | ![part_3_geometry.gif](websiteoutput/worst_pred_exp_10.gif) | Accuracy: 0.5961
 ![part_3_geometry.gif](websiteoutput/worst_gt_exp_2.gif) | ![part_3_geometry.gif](websiteoutput/worst_pred_exp_2.gif) | Accuracy: 0.4566
 ![part_3.gif](websiteoutput/worst_gt_exp_3.gif) | ![part_3_geometry.gif](websiteoutput/worst_pred_exp_3.gif) | Accuracy: 0.4737
@@ -132,7 +132,7 @@ experiment_1(main_seg, create_parser_seg)
 
 
  Num Points | 3 | 10 | 25 | 50 | 100 | 250 | 1000  
-- | - | - | - | - | - | - | -
+---|---|---|---|---|---|---|---
  Ground truth | ![part_3_geometry.gif](websiteoutput/numpoints_3_gt_exp_0.gif) | ![part_3_geometry.gif](websiteoutput/numpoints_10_gt_exp_0.gif) | ![part_3_geometry.gif](websiteoutput/numpoints_25_gt_exp_0.gif) | ![part_3_geometry.gif](websiteoutput/numpoints_50_gt_exp_0.gif) | ![part_3_geometry.gif](websiteoutput/numpoints_100_gt_exp_0.gif) | ![part_3_geometry.gif](websiteoutput/numpoints_250_gt_exp_0.gif) | ![part_3_geometry.gif](websiteoutput/numpoints_1000_gt_exp_0.gif)
 Predicted | ![part_3_geometry.gif](websiteoutput/numpoints_3_pred_exp_0.gif) | ![part_3_geometry.gif](websiteoutput/numpoints_10_pred_exp_0.gif) | ![part_3_geometry.gif](websiteoutput/numpoints_25_pred_exp_0.gif) | ![part_3_geometry.gif](websiteoutput/numpoints_50_pred_exp_0.gif) | ![part_3_geometry.gif](websiteoutput/numpoints_100_pred_exp_0.gif) | ![part_3_geometry.gif](websiteoutput/numpoints_250_pred_exp_0.gif) | ![part_3_geometry.gif](websiteoutput/numpoints_1000_pred_exp_0.gif)
 Test Accuracy | 0.6505 | 0.6834 | 0.7186 | 0.7665 | 0.8071 | 0.8551 | 0.9004
@@ -174,7 +174,7 @@ experiment_1(main_cls, create_parser_cls, "Classification")
 
 
  Num Points | 3 | 10 | 25 | 50 | 100 | 250 | 1000  
-- | - | - | - | - | - | - | -
+---|---|---|---|---|---|---|---
 Point Cloud | ![part_3_geometry.gif](websiteoutput/numpoints_3_true_0.0_Pred_2_cls_0.gif) | ![part_3_geometry.gif](websiteoutput/numpoints_10_true_0.0_Pred_0_cls_0.gif) | ![part_3_geometry.gif](websiteoutput/numpoints_25_true_0.0_Pred_2_cls_0.gif) | ![part_3_geometry.gif](websiteoutput/numpoints_50_true_0.0_Pred_2_cls_0.gif) | ![part_3_geometry.gif](websiteoutput/numpoints_100_true_0.0_Pred_0_cls_0.gif) | ![part_3_geometry.gif](websiteoutput/numpoints_250_true_0.0_Pred_0_cls_0.gif) | ![part_3_geometry.gif](websiteoutput/numpoints_1000_true_0.0_Pred_0_cls_0.gif)
 Test Accuracy |  0.2455 | 0.3494 | 0.6684 | 0.8625 | 0.9203 | 0.9538 | 0.9717
 
@@ -251,7 +251,7 @@ Discussion: The 3D plot shows a great variation in the space but it is difficult
 - While the heatmap provides more insight that the scatter plot, I have plotted a grid of predictions of one representative example in order to better understand what the model learned. Similar to the heatmap Elevation Angle varies along a column and Azimuthal Angle varies along a row.
 
  Elev\Azim | 0 | 45 | 90 | 135 | 180 | 225 | 270 | 315 | 360  
-- | - | - | - | - | - | - | - | - | -
+---|---|---|---|---|---|---|---|---|---
 0 | ![part_3_geometry.gif](websiteoutput/rotation_e0_a0_pred_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e0_a45_pred_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e0_a90_pred_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e0_a135_pred_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e0_a180_pred_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e0_a225_pred_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e0_a270_pred_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e0_a315_pred_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e0_a360_pred_0.gif)
 45 | ![part_3_geometry.gif](websiteoutput/rotation_e45_a0_pred_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e45_a45_pred_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e45_a90_pred_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e45_a135_pred_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e45_a180_pred_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e45_a225_pred_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e45_a270_pred_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e45_a315_pred_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e45_a360_pred_0.gif)
 90 | ![part_3_geometry.gif](websiteoutput/rotation_e90_a0_pred_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e90_a45_pred_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e90_a90_pred_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e90_a135_pred_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e90_a180_pred_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e90_a225_pred_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e90_a270_pred_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e90_a315_pred_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e90_a360_pred_0.gif)
@@ -297,14 +297,14 @@ Discussion: Similar to the segmentation task the scatter plot isn't the most rev
 - The worst performing regions with accuracies as low as 10% are in isometric configurations like (45, 45) or (135, 45) with the absolute worst performers at (120, 60) or (120,300). Since this view is slightly different than the grid below I have visualised it separately as follows
 
  (120, 60) | (120, 300)
-- | -
+---|---
 ![part_3_geometry.gif](websiteoutput/rotation_e120_a60_true_0.0_Pred_2_cls_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e120_a300_true_0.0_Pred_0_cls_0.gif)
 
 - Purple indicates the point cloud was correctly predicted as a chair whereas yellow or blue mean lamp or vase respectively.
 - The grid below shows that largely the classification performance suffers if the view differs from that of the training data hence even this model is **NOT** rotation invariant!
 
  Elev\Azim | 0 | 45 | 90 | 135 | 180 | 225 | 270 | 315 | 360  
-- | - | - | - | - | - | - | - | - | -
+---|---|---|---|---|---|---|---|---|---
 0 | ![part_3_geometry.gif](websiteoutput/rotation_e0_a0_true_0.0_Pred_2_cls_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e0_a45_true_0.0_Pred_2_cls_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e0_a90_true_0.0_Pred_1_cls_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e0_a135_true_0.0_Pred_2_cls_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e0_a180_true_0.0_Pred_0_cls_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e0_a225_true_0.0_Pred_0_cls_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e0_a270_true_0.0_Pred_2_cls_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e0_a315_true_0.0_Pred_1_cls_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e0_a360_true_0.0_Pred_2_cls_0.gif)
 45 | ![part_3_geometry.gif](websiteoutput/rotation_e45_a0_true_0.0_Pred_0_cls_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e45_a45_true_0.0_Pred_2_cls_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e45_a90_true_0.0_Pred_0_cls_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e45_a135_true_0.0_Pred_1_cls_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e45_a180_true_0.0_Pred_0_cls_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e45_a225_true_0.0_Pred_1_cls_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e45_a270_true_0.0_Pred_2_cls_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e45_a315_true_0.0_Pred_2_cls_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e45_a360_true_0.0_Pred_0_cls_0.gif)
 90 | ![part_3_geometry.gif](websiteoutput/rotation_e90_a0_true_0.0_Pred_1_cls_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e90_a45_true_0.0_Pred_2_cls_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e90_a90_true_0.0_Pred_1_cls_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e90_a135_true_0.0_Pred_2_cls_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e90_a180_true_0.0_Pred_1_cls_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e90_a225_true_0.0_Pred_2_cls_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e90_a270_true_0.0_Pred_1_cls_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e90_a315_true_0.0_Pred_2_cls_0.gif) | ![part_3_geometry.gif](websiteoutput/rotation_e90_a360_true_0.0_Pred_1_cls_0.gif)
