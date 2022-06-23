@@ -1,10 +1,19 @@
+## Overview
+In this project I have implemented a PointNet based architecture for classification and segmentation with point clouds without the tranformation blocks. In the first two sections I focus on implementing, training and testing models. In the third section I quantitatively analyze model robustness. 
+
+`models.py` is where you model structures are defined. `train.py` loads data, trains models, logs trajectories and saves checkpoints. `eval_cls.py` and `eval_seg.py` contain script to evaluate model accuracy and visualize segmentation result. Feel free to modify any file as needed.
+
+## Data Preparation
+Download zip file (~2GB) from https://drive.google.com/file/d/1wXOgwM_rrEYJfelzuuCkRfMmR0J7vLq_/view?usp=sharing. Put the unzipped `data` folder under root directory. There are two folders (`cls` and `seg`) corresponding to two tasks, each of which contains `.npy` files for training and testing.
+
+
 ## Q1. Classification Model
 
 ### Test Accuracy: 97.17 @ Epoch 52
 
 #### Confusion Matrix on Test Set
 
-![Confusion_matrix_cls.png](attachment:Confusion_matrix_cls.png)
+![Confusion_matrix_cls.png](websiteoutput/confusion_matrix_cls_test.png)
 
 Discussion: Chairs clearly have the best performance with no incorrect classifications. It also seems that the number of examples for chairs are much higher than the other two categories
 
