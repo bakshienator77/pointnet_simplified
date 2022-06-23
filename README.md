@@ -79,7 +79,7 @@ experiment_1(main_seg, create_parser_seg)
 
 
     
-![png](output_23_0.png)
+![png](websiteoutput/output_23_0.png)
     
 
 
@@ -122,7 +122,7 @@ experiment_1(main_cls, create_parser_cls, "Classification")
 
 
     
-![png](output_27_0.png)
+![png](websiteoutput/output_27_0.png)
     
 
 
