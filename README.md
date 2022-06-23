@@ -165,7 +165,7 @@ ax = experiment_2(main_seg, create_parser_seg)
 
 
     
-![png](output_34_0.png)
+![png](websiteoutput/output_34_0.png)
     
 
 
@@ -202,7 +202,7 @@ ax = experiment_2(main_cls, create_parser_cls, "Classification")
 
 
     
-![png](output_41_0.png)
+![png](websiteoutput/output_41_0.png)
     
 
 
@@ -213,7 +213,7 @@ ax = experiment_2(main_cls, create_parser_cls, "Classification")
 
 
     
-![png](output_42_0.png)
+![png](websiteoutput/output_42_0.png)
     
 
 
