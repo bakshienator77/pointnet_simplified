@@ -33,7 +33,7 @@ Discussion: The above grid is structured similar to a confusion matris to show a
 
 #### Confusion Matrix on Training Set
 
-![Confusion_matrix_cls.png](attachment:Confusion_matrix_cls.png)
+![Confusion_matrix_cls.png](websiteoutput/confusion_matrix_cls_train.png)
 
 Discussion: We see that the amount of training data for chairs far exceeds the other two classes, which explains why on the test set the performance of Chairs is better than Lamps which in turn is better than Vases.
 
