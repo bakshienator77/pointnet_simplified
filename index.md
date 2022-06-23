@@ -7,7 +7,7 @@ In this project I have implemented a PointNet based architecture for classificat
 Download zip file (~2GB) from https://drive.google.com/file/d/1wXOgwM_rrEYJfelzuuCkRfMmR0J7vLq_/view?usp=sharing. Put the unzipped `data` folder under root directory. There are two folders (`cls` and `seg`) corresponding to two tasks, each of which contains `.npy` files for training and testing.
 
 
-## Q1. Classification Model
+## Classification Model
 
 ### Test Accuracy: 97.17 @ Epoch 52
 
@@ -47,7 +47,7 @@ Lamps | ![part_3_geometry.gif](websiteoutput/train_true_2.0_Pred_0_cls_7.gif) | 
 
 Discussion: I've included a few more examples from the training set because all mistake cases were not covered on the test set. We can identify reasons for the mistakes in chair classification here as the sofa classified as a vase does look cuboidal like the vase/flower pot in the centre. Additionally, the stool misclassified as a lamp is different thatn even a human's understanding of a chair and could be interpreted as a base + rod + lamp shade.
 
-## Q2. Segmentation Model
+## Segmentation Model
 
 ### Test Accuracy: 90.72 @ Epoch 214
 
@@ -64,52 +64,11 @@ Discussion: I've included a few more examples from the training set because all 
 
 Discussion: The examples that the model was really good at are more standard looking chairs with four legs, a seat and a back. As we can see above the ones the model performed more poorly on are rather unique looking chairs, like a single seater sofa, a recliner with an extension or a curved chair/sofa. It is also not obvious to me, as a human, that the ground truth segmentation is undebatably the correct segmentations and the model predictions are not unreasonable.
 
-## Q3. Robustness Analysis
+## Robustness Analysis
 
 ### Varying num_points
 
 Procedure: I have varied the number of points from 3 to 3000 (for better graphs as the performance doesn't vary beyond a certain point). The code to run this is in the jupyter notebook called index.ipynb and resides in the function `experiment_1`.
-
-
-```python
-%load_ext autoreload
-%autoreload 2
-```
-
-
-```python
-from eval_seg import create_parser as create_parser_seg
-from eval_cls import create_parser as create_parser_cls
-from eval_seg import main as main_seg
-from eval_cls import main as main_cls
-import torch
-from matplotlib import pyplot as plt
-import pandas as pd
-```
-
-
-```python
-def experiment_1(main, create_parser, task="Segmentation"):
-    parser = create_parser()
-    args = parser.parse_args(args=[])
-    args.device = torch.device("cuda" if torch.cuda.is_available() else 'cpu')
-    
-    args.exit_early = True
-    args.batch_size = 8
-    
-    points_list = [3, 5, 10, 25, 50, 75, 100, 250, 500, 1000, 2000, 3000]
-    test_accs = []
-    for num_points in points_list:
-        args.num_points = num_points
-        test_accs.append(main(args))
-    plt.plot(points_list, test_accs, )
-    plt.title(task + " Task Test Accuracy vs. num_points")
-    plt.xlabel("Num Points")
-    plt.ylabel("Test Accuracy")
-    plt.show()
-    plt.close()
-    print(pd.DataFrame(zip(points_list, test_accs), columns=["Num Points", "Test Acc"]))
-```
 
 #### Segmentation
 
@@ -120,7 +79,7 @@ experiment_1(main_seg, create_parser_seg)
 
 
     
-![png](output_23_0.png)
+![png](websiteoutput/output_23_0.png)
     
 
 
@@ -163,7 +122,7 @@ experiment_1(main_cls, create_parser_cls, "Classification")
 
 
     
-![png](output_27_0.png)
+![png](websiteoutput/output_27_0.png)
     
 
 
@@ -197,46 +156,6 @@ Discussion:
 Procedure: I have varied the rotations about `y` axis (`azim`) and and wrt to the `xz` plane (`elev`) independently from 0 to 360. The code to run this is in the jupyter notebook called index.ipynb and resides in the function `experiment_2`. For the sake of speed, `num_points` was set to 1000 as we saw in the previous analysis that the performance doesn't improve much beyond it.
 
 
-```python
-def experiment_2(main, create_parser, task="Segmentation"):
-    parser = create_parser()
-    args = parser.parse_args(args=[])
-    args.device = torch.device("cuda" if torch.cuda.is_available() else 'cpu')
-    
-    args.exit_early = True
-    args.batch_size = 8
-    
-    angles_list = [x for x in range(0, 361, 60)]
-    test_accs = []
-    xaxis = []
-    yaxis = []
-    ax = plt.axes(projection='3d')
-    for elev_angle in angles_list:
-        for azim_angle in angles_list:
-            args.num_points = 1000
-            args.elev_angle = elev_angle
-            args.azim_angle = azim_angle
-            test_accs.append(main(args))
-            xaxis.append(elev_angle)
-            yaxis.append(azim_angle)
-    ax.scatter3D(xaxis, yaxis, test_accs, )
-#     plt.plot(points_list, test_accs, )
-    ax.set_title(task + " Task Test Accuracy vs. elev_angle vs. azim_angle")
-    ax.set_xlabel("Elev Angle")
-    ax.set_ylabel("Azim Angle")
-    ax.set_zlabel("Test Accuracy")
-    viz_df = pd.DataFrame(index=angles_list, columns=angles_list)  
-    cnt = 0
-    for i,j in zip(xaxis, yaxis):
-        viz_df.at[i,j] = test_accs[cnt]
-        cnt+=1
-    viz_df.to_excel("output/"+task+".xlsx")
-    return ax, xaxis, yaxis, test_accs, viz_df
-#     ax.show()
-#     ax.close()
-#     print(pd.DataFrame(zip(points_list, test_accs), columns=["Num Points", "Test Acc"]))
-```
-
 #### Segmentation
 
 
@@ -246,13 +165,13 @@ ax = experiment_2(main_seg, create_parser_seg)
 
 
     
-![png](output_34_0.png)
+![png](websiteoutput/output_34_0.png)
     
 
 
 Discussion: The 3D plot shows a great variation in the space but it is difficult to identify strong trends, hence I made the following heatmap with Elevation Angle varying along a column and Azimuthal Angle varying along a row.
 
-![Screenshot%20from%202022-04-16%2021-48-56.png](attachment:Screenshot%20from%202022-04-16%2021-48-56.png)
+![Screenshot%20from%202022-04-16%2021-48-56.png](websiteoutput/segmentation_heatmap.png)
 
 - It is evident that the best performance is in the configuration that the training data was in i.e. [(0, 180), (180, 0), (180, 360), (360, 180)]
 - It is also clear that an elevation angle of 90 or 270 gives the worst performance regardless of the Azimuthal angle. This corresponds to looking at the object top down or bottom up which is in no way similar to the training data
@@ -283,7 +202,7 @@ ax = experiment_2(main_cls, create_parser_cls, "Classification")
 
 
     
-![png](output_41_0.png)
+![png](websiteoutput/output_41_0.png)
     
 
 
@@ -294,13 +213,13 @@ ax = experiment_2(main_cls, create_parser_cls, "Classification")
 
 
     
-![png](output_42_0.png)
+![png](websiteoutput/output_42_0.png)
     
 
 
 Discussion: Similar to the segmentation task the scatter plot isn't the most revealing plot but it does show large variations.
 
-![Screenshot%20from%202022-04-16%2021-48-34.png](attachment:Screenshot%20from%202022-04-16%2021-48-34.png)
+![Screenshot%20from%202022-04-16%2021-48-34.png](websiteoutput/classification_heatmap.png)
 
 - It is evident that the best performance is in the configuration that the training data was in i.e. [(0, 180), (180, 0), (180, 360), (360, 180)]
 - The worst performing regions with accuracies as low as 10% are in isometric configurations like (45, 45) or (135, 45) with the absolute worst performers at (120, 60) or (120,300). Since this view is slightly different than the grid below I have visualised it separately as follows
@@ -326,19 +245,3 @@ Discussion: Similar to the segmentation task the scatter plot isn't the most rev
 
 **Note**: While all visualisation above are rotating objects only a single view of this object corresponding to the appropriate angles were fed into the model.
 
-
-```python
-import re
-import shutil
-
-for line in open("index.html", "r"):
-    if "output/" in line:
-        file = re.findall("\"(output.*)\" ", line)[0]
-        shutil.copyfile(file, "website"+file)
-
-```
-
-
-```python
-
-```
