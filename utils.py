@@ -72,7 +72,7 @@ def viz_seg (verts, labels, path, device):
 
     sample_verts = verts.unsqueeze(0).repeat(30,1,1).to(torch.float)
     sample_labels = labels.unsqueeze(0)
-    sample_colors = torch.zeros((1,10000,3))
+    sample_colors = torch.zeros((1,sample_verts.shape[1],3))
 
     # Colorize points based on segmentation labels
     for i in range(6):
@@ -84,7 +84,7 @@ def viz_seg (verts, labels, path, device):
 
     renderer = get_points_renderer(image_size=image_size, background_color=background_color, device=device)
     rend = (255*renderer(point_cloud, cameras=c).cpu().numpy()).astype(np.uint8) # (30, 256, 256, 3)
-    print(np.max(rend)) 
+    # print(np.max(rend))
 
     imageio.mimsave(path, rend, fps=15)
 
