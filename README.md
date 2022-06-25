@@ -245,3 +245,4 @@ Discussion: Similar to the segmentation task the scatter plot isn't the most rev
 
 **Note**: While all visualisation above are rotating objects only a single view of this object corresponding to the appropriate angles were fed into the model.
 
+*This work was done toward completion of Learning for 3D Vision (16-889) at CMU Robotics Institute*
